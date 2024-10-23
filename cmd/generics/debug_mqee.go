@@ -23,7 +23,7 @@ func (t *TntPool[string]) Call(userMode string, name string, args ...any) (strin
 	return "sdfasf", nil
 }
 
-func main() {
+func DebugGeneric() {
 	a := TntPool[int32]{}
 	fmt.Println(a.Call("asdfaf", "adfaf", "dafdasfd"))
 }

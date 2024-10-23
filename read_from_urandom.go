@@ -12,28 +12,27 @@ func readRandom(c int) ([]byte, error) {
 	}
 
 	buf := make([]byte, c)
-    _, err = file.Read(buf)
+	_, err = file.Read(buf)
 	if err != nil {
 		return nil, err
 	}
 
-    return buf, nil
+	return buf, nil
 }
 
-func main() {
-    b, err := readRandom(1000)
-    if err != nil {
-        fmt.Printf("%s", err)
-    }
+func ReadFromRandom() {
+	b, err := readRandom(1000)
+	if err != nil {
+		fmt.Printf("%s", err)
+	}
 
-    fmt.Printf("Read %d bytes:\n", len(b))
+	fmt.Printf("Read %d bytes:\n", len(b))
 	fmt.Printf("%s\n", b)
 
-    addr := "debug"
-    socketAddr := fmt.Sprintf("@%v", addr)
+	addr := "debug"
+	socketAddr := fmt.Sprintf("@%v", addr)
 
-    fmt.Printf("%s\n", socketAddr)
-
+	fmt.Printf("%s\n", socketAddr)
 
 	return
 }

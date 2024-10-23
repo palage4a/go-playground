@@ -1,22 +1,23 @@
 package main
 
 import (
-    "fmt"
-    "errors"
+	"errors"
+	"fmt"
 )
+
 func Close() error {
-    r := map[string]map[string][]error{
-        "queue": {
-            "a": []error{errors.New("1"), errors.New("2")},
-        },
-        "archive": {
-            "a": []error{errors.New("1"), errors.New("2")},
-            "b": []error{},
-            "c": []error{errors.New("3"), errors.New("4")},
-        },
-        "debug": nil,
-        "another": nil,
-    }
+	r := map[string]map[string][]error{
+		"queue": {
+			"a": []error{errors.New("1"), errors.New("2")},
+		},
+		"archive": {
+			"a": []error{errors.New("1"), errors.New("2")},
+			"b": []error{},
+			"c": []error{errors.New("3"), errors.New("4")},
+		},
+		"debug":   nil,
+		"another": nil,
+	}
 
 	gerrs := make([]error, 0)
 
@@ -34,26 +35,24 @@ func Close() error {
 	return errors.Join(gerrs...)
 }
 
+func ErrorsDebug() {
+	//err := errors.New("queue error:")
+	// var err error
 
+	// errs := []error{errors.New("a"), errors.New("b")}
+	// var errs []error
+	// errs := []error{}
 
-func main() {
-    //err := errors.New("queue error:")
-    // var err error
+	/*
+	   var newerr error
+	   if len(errs) > 0 {
+	       newerr = fmt.Errorf("%w\n%w", err, errors.Join(errs...))
+	   } else {
+	       newerr = fmt.Errorf("%w", err)
+	   }
+	*/
 
-    // errs := []error{errors.New("a"), errors.New("b")}
-    // var errs []error
-    // errs := []error{}
+	err := Close()
 
-    /*
-    var newerr error
-    if len(errs) > 0 {
-        newerr = fmt.Errorf("%w\n%w", err, errors.Join(errs...))
-    } else {
-        newerr = fmt.Errorf("%w", err)
-    }
-    */
-
-    err := Close()
-
-    fmt.Printf("db close connections:\n%s", err)
+	fmt.Printf("db close connections:\n%s", err)
 }
