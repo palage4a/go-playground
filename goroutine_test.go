@@ -45,10 +45,11 @@ func TestGoroutines(t *testing.T) {
 	ch := make(chan []Message)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second+time.Millisecond*1234)
+	defer cancel()
 
 	go poll(ctx, 500, ch)
 
-	for messages := range ch {
+	for range ch {
 		select {
 		case <-ctx.Done():
 			fmt.Printf("context closed\n")
@@ -56,7 +57,6 @@ func TestGoroutines(t *testing.T) {
 			return
 		default:
 		}
-		fmt.Println(messages)
 	}
 
 }
