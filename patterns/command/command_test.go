@@ -23,8 +23,7 @@ func TestCommand(t *testing.T) {
 	for _, tc := range tcs {
 		t.Run(tc.name, func(t *testing.T) {
 			inc := command.NewIncrement(tc.inc)
-			var cmd command.Command
-			cmd = command.NewIncrementCommand(inc)
+			cmd := command.NewIncrementCommand(inc)
 			cmd.Execute()
 			assert.Equal(t, int32(tc.expected), inc.Value())
 		})
