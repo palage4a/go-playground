@@ -1,45 +1,37 @@
 package command
 
+import (
+	"sync/atomic"
+)
+
 type Command interface {
 	Execute()
 }
 
-type Application struct {
-	Enabled bool
+type Increment struct {
+	i int32
 }
 
-func (app *Application) On() {
-	app.Enabled = true
+func NewIncrement(i int32) *Increment {
+	return &Increment{i}
 }
 
-func (app *Application) Off() {
-	app.Enabled = false
+func (i *Increment) Inc() {
+	atomic.AddInt32(&i.i, 1)
 }
 
-func (app *Application) Toggle() {
-	app.Enabled = !app.Enabled
+func (i *Increment) Value() int32 {
+	return atomic.LoadInt32(&i.i)
 }
 
-type OnCommand struct {
-	app *Application
+type IncrementCommand struct {
+	i *Increment
 }
 
-func (o *OnCommand) Execute() {
-	o.app.On()
+func NewIncrementCommand(i *Increment) *IncrementCommand {
+	return &IncrementCommand{i}
 }
 
-type OffCommand struct {
-	app *Application
-}
-
-func (o *OffCommand) Execute() {
-	o.app.Off()
-}
-
-type ToggleCommand struct {
-	app *Application
-}
-
-func (o *ToggleCommand) Execute() {
-	o.app.Toggle()
+func (i *IncrementCommand) Execute() {
+	i.i.Inc()
 }
