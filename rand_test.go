@@ -2,35 +2,35 @@ package main_test
 
 import (
 	"crypto/rand"
+	"fmt"
 	"testing"
 )
 
-func BenchmarkRandRead(b *testing.B) {
-	for _, tc := range []struct {
-		name string
-		size int
-	}{
-		{"1b", 1},
-		{"512b", 1 << 9},
-		{"1kb", 1 << 10},
-		{"2kb", 1 << 11},
-		{"512kb", 1 << 19},
-		{"1mb", 1 << 20},
-		{"2mb", 1 << 21},
-		{"512mb", 1 << 29},
-		{"1gb", 1 << 30},
-	} {
+func ByteCountIEC(b int64) string {
+	const unit = 1024
+	if b < unit {
+		return fmt.Sprintf("%d B", b)
+	}
+	div, exp := int64(unit), 0
+	for n := b / unit; n >= unit; n /= unit {
+		div *= unit
+		exp++
+	}
+	return fmt.Sprintf("%.1f %ciB",
+		float64(b)/float64(div), "KMGTPE"[exp])
+}
 
-		b.Run(tc.name, func(tb *testing.B) {
+func BenchmarkRandRead(b *testing.B) {
+	for i := 0; i < 31; i++ {
+		b.Run(ByteCountIEC(1<<i), func(tb *testing.B) {
 			read := 0
-			for i := 0; i < b.N; i++ {
-				buf := make([]byte, tc.size)
+			for j := 0; j < b.N; j++ {
+				buf := make([]byte, 1<<i)
 				_, err := rand.Read(buf)
 				if err != nil {
 					tb.Fatal(err)
 				}
-				read += tc.size
-
+				read = read + i<<i
 			}
 			tb.ReportMetric(float64(read)/float64(tb.Elapsed().Nanoseconds()), "b/ns")
 		})
