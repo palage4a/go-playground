@@ -1,6 +1,6 @@
 module github.com/palage4a/go-playground
 
-go 1.21.1
+go 1.23.3
 
 require (
 	github.com/go-kit/log v0.2.1
@@ -10,6 +10,7 @@ require (
 	github.com/jaswdr/faker/v2 v2.3.3
 	github.com/oklog/run v1.1.0
 	github.com/prometheus/client_golang v1.19.0
+	github.com/prometheus/client_model v0.5.0
 	github.com/rs/zerolog v1.33.0
 	github.com/stretchr/testify v1.8.4
 	github.com/tarantool/go-tarantool v1.12.2
@@ -38,7 +39,6 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-pointer v0.0.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.48.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
 	github.com/spacemonkeygo/spacelog v0.0.0-20180420211403-2296661a0572 // indirect
