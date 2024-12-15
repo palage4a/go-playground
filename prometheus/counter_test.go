@@ -34,7 +34,6 @@ func TestCounterVectorWrite(t *testing.T) {
 		metric := dto.Metric{}
 		m.Write(&metric)
 		for _, l := range metric.Label {
-			t.Logf("code: %s %v\n", l.GetName(), metric)
 			switch l.GetValue() {
 			case "404":
 				assert.Equal(t, float64(10), metric.GetCounter().GetValue())
@@ -97,6 +96,20 @@ func BenchmarkDebug(b *testing.B) {
 	}
 }
 
+func BenchmarkCounterVecInc(b *testing.B) {
+	req := prometheus.NewRegistry()
+
+	cv := promauto.With(req).NewCounterVec(prometheus.CounterOpts{
+		Name: "counter_3_total",
+		Help: "help",
+	}, []string{"code"})
+
+	c := cv.WithLabelValues("200")
+	for range b.N {
+		c.Inc()
+	}
+}
+
 func BenchmarkCounterInc(b *testing.B) {
 	req := prometheus.NewRegistry()
 
@@ -110,16 +123,15 @@ func BenchmarkCounterInc(b *testing.B) {
 	}
 }
 
-func BenchmarkCounterVecInc(b *testing.B) {
+func BenchmarkCounterAdd(b *testing.B) {
 	req := prometheus.NewRegistry()
 
-	cv := promauto.With(req).NewCounterVec(prometheus.CounterOpts{
-		Name: "counter_3_total",
+	c := promauto.With(req).NewCounter(prometheus.CounterOpts{
+		Name: "counter_total",
 		Help: "help",
-	}, []string{"code"})
+	})
 
-	c := cv.WithLabelValues("200")
 	for range b.N {
-		c.Inc()
+		c.Add(float64(1))
 	}
 }
