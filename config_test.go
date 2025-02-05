@@ -70,7 +70,6 @@ var testcases = []struct {
 func getListenPath(config Config) (string, error) {
 	var path string
 	if config.GrpcHost != "" && config.GrpcPort != "" {
-		fmt.Printf("grpc_host and grpc_port has deprecated, please use grpc_listen instead\n")
 		path = fmt.Sprintf("%s:%s", config.GrpcHost, config.GrpcPort)
 	}
 

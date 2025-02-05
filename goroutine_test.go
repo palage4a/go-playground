@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"testing"
 	"time"
 )
@@ -12,7 +11,9 @@ type Message struct {
 	value string
 }
 
-func poll(ctx context.Context, c int, ch chan<- []Message) error {
+func poll(ctx context.Context, t *testing.T, c int, ch chan<- []Message) error {
+	t.Helper()
+
 	defer close(ch)
 
 	start := time.Now().UnixMilli()
@@ -20,7 +21,7 @@ func poll(ctx context.Context, c int, ch chan<- []Message) error {
 	for i := 0; i < c; i++ {
 		select {
 		case <-ctx.Done():
-			fmt.Printf("time passed %d ms\n", time.Now().UnixMilli()-start)
+			t.Logf("time passed %d ms\n", time.Now().UnixMilli()-start)
 			return nil
 		default:
 			time.Sleep(time.Millisecond * 200)
@@ -47,13 +48,14 @@ func TestGoroutines(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second+time.Millisecond*1234)
 	defer cancel()
 
-	go poll(ctx, 500, ch)
+	go poll(ctx, t, 500, ch)
 
 	for range ch {
 		select {
 		case <-ctx.Done():
-			fmt.Printf("context closed\n")
+			t.Logf("context closed\n")
 			cancel()
+
 			return
 		default:
 		}
