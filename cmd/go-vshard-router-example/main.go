@@ -26,13 +26,14 @@ type User struct {
 func main() {
 	ctx := context.Background()
 
+	uid := uuid.New()
 	r, err := vshard.NewRouter(ctx, vshard.Config{
 		DiscoveryTimeout: time.Minute,
 		DiscoveryMode:    vshard.DiscoveryModeOn,
 		TopologyProvider: static.NewProvider(map[vshard.ReplicasetInfo][]vshard.InstanceInfo{
 			vshard.ReplicasetInfo{
 				Name:   "replcaset_1",
-				UUID:   uuid.New(),
+				UUID:   uid,
 				Weight: 1,
 			}: {
 				{
@@ -66,12 +67,13 @@ func main() {
 			Timeout: time.Second,
 		},
 	})
+	fmt.Printf("%s\n", uid.String())
 	if err != nil {
 		fmt.Printf("new router err: %s\n", err)
 		os.Exit(1)
 	}
 
-	err = r.ClusterBootstrap(ctx, true)
+	err = r.ClusterBootstrap(ctx, false)
 	if err != nil {
 		fmt.Printf("bootstrap err: %s\n", err)
 		os.Exit(1)
