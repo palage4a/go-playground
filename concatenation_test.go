@@ -2,12 +2,9 @@ package main_test
 
 import (
 	"fmt"
-	"math"
 	"strconv"
 	"strings"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 var tcs = []struct {
@@ -80,8 +77,4 @@ func BenchmarkErrorSprintf(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = fmt.Sprintf("%s", err)
 	}
-}
-
-func TestDebug(t *testing.T) {
-	assert.Equal(t, 3, math.MaxInt32)
 }

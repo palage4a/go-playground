@@ -66,6 +66,8 @@ type PublishArgs struct {
 }
 
 func TestArrayEncoding(t *testing.T) {
+	t.Skip()
+
 	dialer := tarantool.NetDialer{
 		Address:  "127.0.0.1:3301",
 		User:     "user",
@@ -96,6 +98,8 @@ func TestArrayEncoding(t *testing.T) {
 }
 
 func TestArrayEncodingDeduplication(t *testing.T) {
+	t.Skip()
+
 	dialer := tarantool.NetDialer{
 		Address:  "127.0.0.1:3301",
 		User:     "user",
@@ -128,6 +132,8 @@ func TestArrayEncodingDeduplication(t *testing.T) {
 }
 
 func TestArrayEncodingPaylodNotFound(t *testing.T) {
+	t.Skip()
+
 	dialer := tarantool.NetDialer{
 		Address:  "127.0.0.1:3301",
 		User:     "user",

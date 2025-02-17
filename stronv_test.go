@@ -10,8 +10,10 @@ import (
 )
 
 func TestStrconvFmt(t *testing.T) {
-	a := strconv.FormatInt(time.Now().UnixNano(), 10)
-	b := fmt.Sprintf("%d", time.Now().UnixNano())
+	now := time.Now().UnixNano()
+
+	a := strconv.FormatInt(now, 10)
+	b := fmt.Sprintf("%d", now)
 
 	assert.Equal(t, a, b)
 }

@@ -1,11 +1,12 @@
 package prometheus
 
 import (
+	"testing"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	dto "github.com/prometheus/client_model/go"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestCounterVectorWrite(t *testing.T) {
@@ -133,5 +134,35 @@ func BenchmarkCounterAdd(b *testing.B) {
 
 	for range b.N {
 		c.Add(float64(1))
+	}
+}
+
+// BenchmarkCounterInc10-12    	62908081	        19.01 ns/op	       0 B/op	       0 allocs/op
+func BenchmarkCounterInc10(b *testing.B) {
+	req := prometheus.NewRegistry()
+
+	r := promauto.With(req).NewCounter(prometheus.CounterOpts{
+		Name: "req_total",
+		Help: "help",
+	})
+
+	for range b.N {
+		for range 10 {
+			r.Inc()
+		}
+	}
+}
+
+// BenchmarkCounterAdd10-12    	595445830	         1.951 ns/op	       0 B/op	       0 allocs/op
+func BenchmarkCounterAdd10(b *testing.B) {
+	req := prometheus.NewRegistry()
+
+	c := promauto.With(req).NewCounter(prometheus.CounterOpts{
+		Name: "counter_total",
+		Help: "help",
+	})
+
+	for range b.N {
+		c.Add(float64(10))
 	}
 }
