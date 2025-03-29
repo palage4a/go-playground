@@ -1,9 +1,12 @@
 package main
 
 import (
-	"github.com/stretchr/testify/assert"
+	"fmt"
 	"net/url"
+	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestUrlParseTcp(t *testing.T) {
@@ -17,12 +20,27 @@ func TestUrlParseTcp(t *testing.T) {
 }
 
 func TestUrlParseUnix(t *testing.T) {
-	u := "unix:///tmp/test.sock"
+	for _, tc := range []struct {
+		input string
+	}{
+		{"unix:///tmp/test.sock"},
+		{"unix://tmp/test.sock"},
+		{"unix://./tmp/test.sock"},
+		{"unix://../tmp/test.sock"},
+		{"unix:./tmp/test.sock"},
+		{"unix:/tmp/test.sock"},
+	} {
+		t.Run(fmt.Sprintf("%s", tc.input), func(t *testing.T) {
+			v, err := url.Parse(tc.input)
+			if err != nil {
+				t.Errorf("failed to parse uri")
+			}
 
-	v, err := url.Parse(u)
-	if err != nil {
-		t.Errorf("failed to parse uri")
+			path := strings.Split(tc.input, "://")
+
+			assert.Equal(t, 2, len(path))
+			assert.Equal(t, "asdf;lkasjfl", v)
+		})
 	}
 
-	assert.Equal(t, "/tmp/test.sock", v.Path)
 }
