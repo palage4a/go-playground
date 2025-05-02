@@ -4,7 +4,6 @@ go 1.23.3
 
 // replace github.com/tarantool/message-queue-ee => github.com/tarantool/message-queue-ee/server v0.0.0-20250303065832-08ff97834db5
 
-
 require (
 	github.com/KaymeKaydex/go-vshard-router v1.2.0
 	github.com/go-kit/log v0.2.1
@@ -37,7 +36,6 @@ require (
 
 require (
 	cloud.google.com/go v0.112.1 // indirect
-	cloud.google.com/go/compute v1.24.0 // indirect
 	cloud.google.com/go/compute/metadata v0.5.0 // indirect
 	cloud.google.com/go/firestore v1.15.0 // indirect
 	cloud.google.com/go/longrunning v0.5.5 // indirect
@@ -100,7 +98,6 @@ require (
 	github.com/tarantool/go-iproto v1.1.0 // indirect
 	github.com/tarantool/go-openssl v0.0.8-0.20230307065445-720eeb389195 // indirect
 	github.com/tarantool/go-tarantool v1.12.2 // indirect
-	github.com/tarantool/message-queue-ee/server v0.0.0-20250303065832-08ff97834db5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.17 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.17 // indirect
